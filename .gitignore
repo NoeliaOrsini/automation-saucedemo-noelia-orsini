@@ -1,0 +1,14 @@
+# Cache de Python y Pytest
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Reportes HTML y evidencias temporales
+report/
+reporte.html
+
+# Entornos virtuales e IDEs
+.venv/
+.vscode/
+.DS_Store
