@@ -4,15 +4,11 @@ Este repositorio contiene la suite de pruebas automatizadas para la plataforma w
 
 El objetivo principal es validar la estabilidad y funcionalidad crítica de los flujos clave de la aplicación demo aplicando Selenium WebDriver, Pytest y buenas prácticas de arquitectura de software.
 
----
-
 ## 📌 Flujos Automatizados
 
 1. **Autenticación (Login):** Validación de credenciales válidas, verificación de elementos clave de la interfaz (logo, título) y confirmación de la redirección al catálogo (`/inventory.html`).
 2. **Navegación y Catálogo (Inventory):** Verificación de la carga de productos, validación de nombres/precios dinámicos e inspección de componentes de navegación.
 3. **Gestión del Carrito (Cart):** Adición de productos al carrito, verificación del contador dinámico (*badge*) en la interfaz y confirmación de ítems dentro de la vista detallada del carrito.
-
----
 
 ## 🛠️ Tecnologías Utilizadas
 
@@ -22,8 +18,6 @@ El objetivo principal es validar la estabilidad y funcionalidad crítica de los 
 * **Arquitectura de Pruebas:** Pytest Fixtures (`conftest.py`)
 * **Reporte de Pruebas:** pytest-html
 * **Control de Versiones:** Git & GitHub
-
----
 
 ## 📁 Estructura del Repositorio
 
@@ -44,8 +38,6 @@ automation-saucedemo-noelia-orsini/
 └── requirements.txt         # Lista de dependencias del proyecto
 ```
 
----
-
 ## ⚙️ Instalación y Configuración
 
 1. **Clonar el repositorio:**
@@ -56,12 +48,12 @@ automation-saucedemo-noelia-orsini/
    ```
 
 2. **Crear y activar un entorno virtual:**
-   * **Windows:**
+* **Windows:**
      ```bash
      python -m venv venv
      venv\Scripts\activate
      ```
-   * **macOS/Linux:**
+* **macOS/Linux:**
      ```bash
      python -m venv venv
      source venv/bin/activate
@@ -71,8 +63,6 @@ automation-saucedemo-noelia-orsini/
    ```bash
    pip install -r requirements.txt
    ```
-
----
 
 ## 🔧 Decisiones Técnicas y Arquitectura del Framework
 
@@ -90,16 +80,14 @@ Para garantizar la máxima estabilidad, portabilidad y un uso eficiente de los r
    * `--remote-allow-origins=*`: Autoriza las conexiones locales del ChromeDriver sin bloqueos de seguridad.
    * `--disable-gpu`: Desactiva la aceleración gráfica por hardware para optimizar el consumo de recursos.
 
-4. **Estrategia de Esperas:**
-   Se configuró una espera implícita global (`implicitly_wait(10)`) a nivel de fixture para dar margen al renderizado dinámico del DOM, previniendo fallos por desincronización de elementos.
+4. **Estrategia de Esperas Explícitas (Explicit Waits):**
+   Para garantizar la máxima estabilidad y evitar falsos negativos por desincronización, las pruebas prescinden de esperas fijas (`time.sleep`) y utilizan exclusivamente **esperas explícitas mediante `WebDriverWait` y `expected_conditions`**. Esto permite aguardar dinámicamente a que los elementos del DOM estén presentes o sean cliqueables (como botones de login, ítems y el contador del carrito) antes de interactuar con ellos.
 
 5. **Reportes HTML Autónomos Centralizados (`pytest.ini`):**
    El archivo `pytest.ini` define la opción `addopts = -v -s --html=report/reporte.html --self-contained-html`, generando un informe visual consolidado en un solo archivo dentro de `report/reporte.html`.
 
 6. **Escalabilidad Futura:**
 La suite actual está estructurada para validar los flujos punta a punta de forma independiente. Como paso de optimización futura, se proyecta refactorizar los inicios de sesión redundantes en los módulos de `Inventory` y `Cart` utilizando fixtures de Pytest con alcance de sesión (`scope="session"`) o implementando el patrón de diseño Page Object Model (POM), para reducir la duplicación de código y acelerar los tiempos de ejecución.
-
----
 
 ## 🧪 Ejecución de Pruebas
 
@@ -123,8 +111,6 @@ pytest -m inventory
 pytest -m cart
 ```
 
----
-
 ## 📸 Evidencias de Ejecución
 
 Los resultados gráficos e informes de prueba se encuentran respaldados en la carpeta `assets/`:
@@ -140,8 +126,6 @@ Los resultados gráficos e informes de prueba se encuentran respaldados en la ca
 
 *(El informe interactivo detallado en formato HTML se genera automáticamente en `report/reporte.html` tras cada ejecución).*
 
----
-
 ## 👩‍💻 Autora
 
 **Noelia Orsini**  
@@ -153,4 +137,4 @@ Soy Abogada, Counselor y Programadora. Trabajo en la intersección del derecho c
 * **Portafolio:** [noelia-orsini-portafolio](https://noelia-orsini-portafolio.lovable.app/)
 
 ---
-*Proyecto realizado para el curso de Talento Tech.*
+*Proyecto realizado para el curso AUTOMATIZACION QA de Talento Tech.*
