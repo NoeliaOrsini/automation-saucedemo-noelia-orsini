@@ -22,7 +22,7 @@ El objetivo principal es validar la estabilidad y funcionalidad crítica de los 
 ## 📁 Estructura del Repositorio
 
 ```text
-automation-saucedemo-noelia-orsini/
+pre-entrega-automation-test/
 │
 ├── assets/                 # Evidencias y reportes visuales de ejecución
 ├── data/                   # Archivos de datos de prueba (CSV/JSON)
@@ -30,22 +30,26 @@ automation-saucedemo-noelia-orsini/
 │   └── products.json       # Datos de productos para inventario y carrito
 ├── pages/                  # Patrón Page Object Model (POM)
 │   ├── __init__.py         # Inicializador del paquete pages
-│   ├── login_page.py       # Acciones y selectores de la vista de login
+│   ├── cart_page.py        # Acciones y selectores del carrito
 │   ├── inventory_page.py   # Acciones y selectores del catálogo
-│   └── cart_page.py        # Acciones y selectores del carrito
+│   └── login_page.py       # Acciones y selectores de la vista de login
 ├── report/                 # Reporte HTML autónomo (reporte.html)
-├── tests/                  # Suite de pruebas automatizadas
-│   ├── test_login.py       # Pruebas del módulo de autenticación
+├── tests/                  # Suite de pruebas automatizadas UI (Selenium)
+│   ├── test_cart.py        # Pruebas del módulo de carrito
 │   ├── test_inventory.py   # Pruebas del catálogo de productos
-│   └── test_cart.py        # Pruebas del módulo de carrito
+│   └── test_login.py       # Pruebas del módulo de autenticación
+├── tests_api/              # Suite de pruebas automatizadas de API (Requests)
+│   └── test_api.py         # Pruebas de integración para endpoints GET y POST
 ├── utils/                  # Funciones auxiliares y helpers
 │   ├── __init__.py         # Inicializador del paquete utils
 │   └── reader.py           # Lectores centralizados para CSV y JSON
-├── conftest.py             # Fixture global (inicialización del driver y teardown)
+├── .gitignore              # Archivos y carpetas ignorados por Git
+├── conftest.py             # Fixtures globales (driver de Selenium y cabeceras API)
 ├── pytest.ini              # Configuración centralizada de Pytest y marcadores
 ├── README.md               # Documentación técnica del proyecto
 └── requirements.txt        # Lista de dependencias del proyecto
 ```
+
 ## 🧩 Componentes Arquitectónicos Principales
 
 - **Page Object Model (`pages/`):** 
@@ -80,12 +84,27 @@ automation-saucedemo-noelia-orsini/
    pip install -r requirements.txt
    ```
 
+4. **Configurar la Variable de Entorno (`API_KEY`):**
+   Las pruebas de API requieren definir la clave de acceso local antes de ejecutar `pytest`:
+   - **Windows (PowerShell):**
+     ```powershell
+     $env:API_KEY="tu_api_key_proporcionada"
+     ```
+   - **Windows (CMD):**
+     ```cmd
+     set API_KEY="tu_api_key_proporcionada"
+     ```
+   - **macOS / Linux:**
+     ```bash
+     export API_KEY="tu_api_key_proporcionada"
+     ```
+
 ## 🔧 Decisiones Técnicas y Arquitectura del Framework
 
 Para garantizar la máxima estabilidad, portabilidad y un uso eficiente de los recursos del sistema (optimizando la ejecución en entornos restringidos de memoria RAM), el framework incorpora las siguientes decisiones de diseño:
 
 1. **Gestión Centralizada con Fixtures (`conftest.py`):**
-   Uso de `@pytest.fixture` para inicializar el navegador y garantizar su cierre (`driver.quit()`) mediante `yield`, reduciendo código duplicado y asegurando la liberación de recursos.
+   El archivo global `conftest.py` centraliza la inicialización de recursos para evitar duplicación: gestiona de forma aislada el navegador para Selenium (UI) y provee la fixture `api_headers` para inyectar automáticamente la credencial de autenticación en las pruebas de `tests_api/`.
 
 2. **Aislamiento de Sesión y Perfiles Temporales (`tempfile`):**
    Cada prueba genera una carpeta temporal única con `tempfile.mkdtemp()` asignada a `--user-data-dir`. Esto elimina colisiones de sesiones previas, previene errores de puertos bloqueados (`DevToolsActivePort`) y garantiza ejecuciones independientes.
