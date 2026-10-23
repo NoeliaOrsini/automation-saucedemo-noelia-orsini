@@ -22,21 +22,41 @@ El objetivo principal es validar la estabilidad y funcionalidad crítica de los 
 ## 📁 Estructura del Repositorio
 
 ```text
-automation-saucedemo-noelia-orsini/
+pre-entrega-automation-test/
 │
-├── assets/                  # Capturas de evidencia y reportes visuales de ejecución
-├── datos/                   # Archivos de datos de prueba (CSV/JSON)
-├── report/                  # Reporte HTML autónomo generado tras las ejecuciones (reporte.html)
-├── tests/                   # Suite de pruebas automatizadas y fixtures
-│   ├── conftest.py          # Fixture global (inicialización del driver, esperas y teardown)
-│   ├── test_login.py        # Pruebas del módulo de autenticación
-│   ├── test_inventory.py    # Pruebas del catálogo de productos e inventario
-│   └── test_cart.py         # Pruebas del módulo de carrito de compras
-├── utils/                   # Funciones auxiliares y configuraciones globales
-├── pytest.ini               # Configuración centralizada de Pytest, markers y reportes
-├── README.md                # Documentación técnica del proyecto
-└── requirements.txt         # Lista de dependencias del proyecto
+├── assets/                 # Evidencias y reportes visuales de ejecución
+├── data/                   # Archivos de datos de prueba (CSV/JSON)
+│   ├── users.csv           # Datos parametrizados para autenticación (DDT)
+│   └── products.json       # Datos de productos para inventario y carrito
+├── pages/                  # Patrón Page Object Model (POM)
+│   ├── __init__.py         # Inicializador del paquete pages
+│   ├── cart_page.py        # Acciones y selectores del carrito
+│   ├── inventory_page.py   # Acciones y selectores del catálogo
+│   └── login_page.py       # Acciones y selectores de la vista de login
+├── report/                 # Reporte HTML autónomo (reporte.html)
+├── tests/                  # Suite de pruebas automatizadas UI (Selenium)
+│   ├── test_cart.py        # Pruebas del módulo de carrito
+│   ├── test_inventory.py   # Pruebas del catálogo de productos
+│   └── test_login.py       # Pruebas del módulo de autenticación
+├── tests_api/              # Suite de pruebas automatizadas de API (Requests)
+│   └── test_api.py         # Pruebas de integración para endpoints GET y POST
+├── utils/                  # Funciones auxiliares y helpers
+│   ├── __init__.py         # Inicializador del paquete utils
+│   └── reader.py           # Lectores centralizados para CSV y JSON
+├── .gitignore              # Archivos y carpetas ignorados por Git
+├── conftest.py             # Fixtures globales (driver de Selenium y cabeceras API)
+├── pytest.ini              # Configuración centralizada de Pytest y marcadores
+├── README.md               # Documentación técnica del proyecto
+└── requirements.txt        # Lista de dependencias del proyecto
 ```
+
+## 🧩 Componentes Arquitectónicos Principales
+
+- **Page Object Model (`pages/`):** 
+  Implementa el patrón de diseño POM para desacoplar los selectores y la lógica de interacción web del código de prueba. Cada pantalla principal (`LoginPage`, `InventoryPage`, `CartPage`) cuenta con su propia clase dedicada, garantizando un mantenimiento limpio y escalable.
+
+- **Data-Driven Testing & Helpers (`data/` y `utils/`):** 
+  Los datos de entrada están completamente separados del código de ejecución mediante archivos estructurados en formato CSV (`users.csv`) y JSON (`products.json`). El módulo centralizado `utils/reader.py` se encarga de leerlos de forma dinámica y segura, permitiendo parametrizar las pruebas sin alterar la lógica de los tests.
 
 ## ⚙️ Instalación y Configuración
 
@@ -64,12 +84,27 @@ automation-saucedemo-noelia-orsini/
    pip install -r requirements.txt
    ```
 
+4. **Configurar la Variable de Entorno (`API_KEY`):**
+   Las pruebas de API requieren definir la clave de acceso local antes de ejecutar `pytest`:
+   - **Windows (PowerShell):**
+     ```powershell
+     $env:API_KEY="tu_api_key_proporcionada"
+     ```
+   - **Windows (CMD):**
+     ```cmd
+     set API_KEY="tu_api_key_proporcionada"
+     ```
+   - **macOS / Linux:**
+     ```bash
+     export API_KEY="tu_api_key_proporcionada"
+     ```
+
 ## 🔧 Decisiones Técnicas y Arquitectura del Framework
 
 Para garantizar la máxima estabilidad, portabilidad y un uso eficiente de los recursos del sistema (optimizando la ejecución en entornos restringidos de memoria RAM), el framework incorpora las siguientes decisiones de diseño:
 
 1. **Gestión Centralizada con Fixtures (`conftest.py`):**
-   Uso de `@pytest.fixture` para inicializar el navegador y garantizar su cierre (`driver.quit()`) mediante `yield`, reduciendo código duplicado y asegurando la liberación de recursos.
+   El archivo global `conftest.py` centraliza la inicialización de recursos para evitar duplicación: gestiona de forma aislada el navegador para Selenium (UI) y provee la fixture `api_headers` para inyectar automáticamente la credencial de autenticación en las pruebas de `tests_api/`.
 
 2. **Aislamiento de Sesión y Perfiles Temporales (`tempfile`):**
    Cada prueba genera una carpeta temporal única con `tempfile.mkdtemp()` asignada a `--user-data-dir`. Esto elimina colisiones de sesiones previas, previene errores de puertos bloqueados (`DevToolsActivePort`) y garantiza ejecuciones independientes.
@@ -86,8 +121,8 @@ Para garantizar la máxima estabilidad, portabilidad y un uso eficiente de los r
 5. **Reportes HTML Autónomos Centralizados (`pytest.ini`):**
    El archivo `pytest.ini` define la opción `addopts = -v -s --html=report/reporte.html --self-contained-html`, generando un informe visual consolidado en un solo archivo dentro de `report/reporte.html`.
 
-6. **Escalabilidad Futura:**
-La suite actual está estructurada para validar los flujos punta a punta de forma independiente. Como paso de optimización futura, se proyecta refactorizar los inicios de sesión redundantes en los módulos de `Inventory` y `Cart` utilizando fixtures de Pytest con alcance de sesión (`scope="session"`) o implementando el patrón de diseño Page Object Model (POM), para reducir la duplicación de código y acelerar los tiempos de ejecución.
+6. Arquitectura Page Object Model (POM) y Data-Driven Testing (DDT):
+El proyecto implementa formalmente el patrón Page Object Model (POM) en la carpeta pages/, desacoplando por completo la lógica de interacción de los elementos web (locators) del código de prueba propiamente dicho. Asimismo, se aplica Data-Driven Testing (DDT) mediante archivos externos users.csv y products.json ubicados en data/, centralizando su lectura a través de funciones seguras en utils/reader.py. Esto permite escalar la cobertura de pruebas de forma limpia sin duplicar código ni modificar las rutinas de testeo.
 
 ## 🧪 Ejecución de Pruebas
 

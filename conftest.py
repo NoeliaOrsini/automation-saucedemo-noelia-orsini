@@ -1,3 +1,4 @@
+import os
 import pytest
 import tempfile
 import shutil
@@ -25,3 +26,12 @@ def driver():
     # 5. Limpieza posterior al test: cerrar navegador y eliminar la carpeta temporal
     browser.quit()
     shutil.rmtree(temp_dir, ignore_errors=True)
+    
+@pytest.fixture
+def api_headers():
+    """Fixture que centraliza la API Key y las cabeceras comunes para las pruebas de API"""
+    api_key = os.getenv("API_KEY")
+    return {
+        "x-api-key": api_key,
+        "Content-Type": "application/json"
+    }
