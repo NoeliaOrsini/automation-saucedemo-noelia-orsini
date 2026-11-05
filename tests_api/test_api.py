@@ -1,9 +1,10 @@
 import pytest
 import requests
 
+
 @pytest.mark.api
-def test_obtener_usuario(api_headers):
-    url = "https://reqres.in/api/users/2"
+def test_obtener_usuario(base_url, api_headers):
+    url = f"{base_url}/users/2"
     
     # Uso fixture para validar credenciales de la API
     response = requests.get(url, headers=api_headers)
@@ -39,8 +40,8 @@ def test_obtener_usuario(api_headers):
 
 
 @pytest.mark.api
-def test_crear_usuario(api_headers):
-    url = "https://reqres.in/api/users/"
+def test_crear_usuario(base_url, api_headers):
+    url = f"{base_url}/users/"
     
     usuario = {
         "email": "jose.montezuma@bue.edu.ar",

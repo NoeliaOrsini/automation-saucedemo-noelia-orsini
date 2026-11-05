@@ -1,0 +1,7 @@
+2026-11-04 22:00:14,288 WARNING selenium.webdriver.common.selenium_manager - Error sending stats to Plausible: error sending request for url (https://plausible.io/api/event)
+2026-11-04 22:01:58,392 INFO talento_tech - Iniciando prueba de login para el usuario: locked_out_user
+2026-11-04 22:02:35,117 INFO talento_tech - Pagina abierta correctamente
+2026-11-04 22:02:42,641 INFO talento_tech - Prueba de mensaje de error valida
+2026-11-04 22:03:23,105 INFO talento_tech - Iniciando prueba de login para el usuario: invalid_user
+2026-11-04 22:03:31,583 INFO talento_tech - Pagina abierta correctamente
+2026-11-04 22:03:31,677 INFO talento_tech - Prueba de mensaje de error valida

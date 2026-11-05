@@ -28,12 +28,14 @@ pre-entrega-automation-test/
 ├── data/                   # Archivos de datos de prueba (CSV/JSON)
 │   ├── users.csv           # Datos parametrizados para autenticación (DDT)
 │   └── products.json       # Datos de productos para inventario y carrito
+├── logs/                   # Registro automatizado de trazas y auditoría (Logs)
 ├── pages/                  # Patrón Page Object Model (POM)
 │   ├── __init__.py         # Inicializador del paquete pages
 │   ├── cart_page.py        # Acciones y selectores del carrito
 │   ├── inventory_page.py   # Acciones y selectores del catálogo
 │   └── login_page.py       # Acciones y selectores de la vista de login
-├── report/                 # Reporte HTML autónomo (reporte.html)
+├── reports/                # Reportes HTML y evidencias de ejecución
+│   └── screenshots/        # Capturas automáticas de pantalla cuando falla un test
 ├── tests/                  # Suite de pruebas automatizadas UI (Selenium)
 │   ├── test_cart.py        # Pruebas del módulo de carrito
 │   ├── test_inventory.py   # Pruebas del catálogo de productos
@@ -42,6 +44,7 @@ pre-entrega-automation-test/
 │   └── test_api.py         # Pruebas de integración para endpoints GET y POST
 ├── utils/                  # Funciones auxiliares y helpers
 │   ├── __init__.py         # Inicializador del paquete utils
+│   ├── logger.py           # Configuración centralizada de logging y trazabilidad
 │   └── reader.py           # Lectores centralizados para CSV y JSON
 ├── .gitignore              # Archivos y carpetas ignorados por Git
 ├── conftest.py             # Fixtures globales (driver de Selenium y cabeceras API)
@@ -55,8 +58,8 @@ pre-entrega-automation-test/
 - **Page Object Model (`pages/`):** 
   Implementa el patrón de diseño POM para desacoplar los selectores y la lógica de interacción web del código de prueba. Cada pantalla principal (`LoginPage`, `InventoryPage`, `CartPage`) cuenta con su propia clase dedicada, garantizando un mantenimiento limpio y escalable.
 
-- **Data-Driven Testing & Helpers (`data/` y `utils/`):** 
-  Los datos de entrada están completamente separados del código de ejecución mediante archivos estructurados en formato CSV (`users.csv`) y JSON (`products.json`). El módulo centralizado `utils/reader.py` se encarga de leerlos de forma dinámica y segura, permitiendo parametrizar las pruebas sin alterar la lógica de los tests.
+- **Data-Driven Testing & Helpers & Logs (`data/`, `utils/` y `logs/`):** 
+Los datos de entrada están completamente separados del código mediante archivos CSV (users.csv) y JSON (products.json). El módulo utils/reader.py los procesa de forma dinámica, mientras que utils/logger.py genera de manera automática registros detallados de auditoría en la carpeta logs/ durante cada ejecución, permitiendo una trazabilidad completa sin alterar la lógica de los tests.
 
 ## ⚙️ Instalación y Configuración
 
