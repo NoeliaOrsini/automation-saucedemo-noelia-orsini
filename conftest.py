@@ -6,7 +6,7 @@ import shutil
 from selenium import webdriver
 import base64
 import pathlib
-
+from datetime import datetime
 
 @pytest.fixture
 def driver():
@@ -51,7 +51,7 @@ def pytest_runtest_makereport(item, call):
 
     # Se ejecuta únicamente cuando la prueba falla en su fase de llamada (call)
     if report.when == "call" and report.failed:
-        # Intentamos obtener el driver si el test utilizaba Selenium (UI)
+        # Intenta obtener el driver si el test utilizaba Selenium (UI)
         driver = item.funcargs.get("driver")
 
         # PROTECCIÓN API/UI: Verifica que el driver exista. 
@@ -59,8 +59,12 @@ def pytest_runtest_makereport(item, call):
         if driver:
             carpeta = pathlib.Path("reports/screenshots")
             carpeta.mkdir(parents=True, exist_ok=True)
-            archivo = carpeta / f"{item.name}.png"
-
+            
+            # Generar fecha y hora formateada (Ej: 2026-11-05_21-30-15)
+            timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            
+            # Incluir el timestamp en el nombre del archivo 
+            archivo = carpeta / f"{item.name}_{timestamp}.png"
             driver.save_screenshot(str(archivo))
 
             imagen = base64.b64encode(archivo.read_bytes()).decode("utf-8")

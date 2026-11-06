@@ -164,6 +164,16 @@ Los resultados gráficos e informes de prueba se encuentran respaldados en la ca
 
 *(El informe interactivo detallado en formato HTML se genera automáticamente en `report/reporte.html` tras cada ejecución).*
 
+## 📊 Reportes de Ejecución y Evidencias
+
+El framework cuenta con generación automática de reportes detallados en HTML y captura de pantallas automática ante cualquier fallo en las pruebas de interfaz (UI):
+
+- **Reporte HTML Autónomo:** `reports/reporte.html` (generado automáticamente por `pytest-html`).
+- **Evidencias Visuales:** Almacenadas en la carpeta `reports/screenshots/` y respaldadas en `assets/` para su trazabilidad en el repositorio.
+
+### Ejemplo de Reporte HTML con Captura de Evidencia:
+![Evidencia de Reporte y Screenshot](assets/screenshots.png)
+
 ## 👩‍💻 Autora
 
 **Noelia Orsini**  

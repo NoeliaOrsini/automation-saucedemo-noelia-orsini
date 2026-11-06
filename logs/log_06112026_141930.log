@@ -1,0 +1,30 @@
+2026-11-06 14:19:47,883 INFO talento_tech - Iniciando prueba GET para obtener usuario en: https://reqres.in/api/users/2
+2026-11-06 14:19:58,659 INFO talento_tech - Nivel 1 verificado: Status Code 200 OK.
+2026-11-06 14:19:58,659 INFO talento_tech - Nivel 2 verificado: Content-Type application/json presente.
+2026-11-06 14:19:58,659 INFO talento_tech - Nivel 3 verificado: La clave 'data' está presente en la respuesta.
+2026-11-06 14:19:58,659 INFO talento_tech - Nivel 4 verificado: Contenido completo del usuario validado correctamente.
+2026-11-06 14:19:58,715 ERROR talento_tech - Error crítico durante la prueba de API en test_obtener_usuario: assert 10.043272 < 5
+ +  where 10.043272 = <built-in method total_seconds of datetime.timedelta object at 0x00000283A9BC08A0>()
+ +    where <built-in method total_seconds of datetime.timedelta object at 0x00000283A9BC08A0> = datetime.timedelta(seconds=10, microseconds=43272).total_seconds
+ +      where datetime.timedelta(seconds=10, microseconds=43272) = <Response [200]>.elapsed
+Traceback (most recent call last):
+  File "C:\Users\IRON\Documents\Noe\QA\pre-entrega-automation-testing-noelia-orsini\tests_api\test_api.py", line 45, in test_obtener_usuario
+    assert response.elapsed.total_seconds() < 5
+AssertionError: assert 10.043272 < 5
+ +  where 10.043272 = <built-in method total_seconds of datetime.timedelta object at 0x00000283A9BC08A0>()
+ +    where <built-in method total_seconds of datetime.timedelta object at 0x00000283A9BC08A0> = datetime.timedelta(seconds=10, microseconds=43272).total_seconds
+ +      where datetime.timedelta(seconds=10, microseconds=43272) = <Response [200]>.elapsed
+2026-11-06 14:20:01,014 INFO talento_tech - Iniciando prueba POST para crear usuario en: https://reqres.in/api/users/ con datos: {'email': 'jose.montezuma@bue.edu.ar', 'first_name': 'Jose', 'last_name': 'Montezuma', 'job': 'Instructor'}
+2026-11-06 14:20:02,321 INFO talento_tech - Nivel 1 verificado: Status Code 201 Created.
+2026-11-06 14:20:02,321 INFO talento_tech - Nivel 2 verificado: Content-Type application/json presente.
+2026-11-06 14:20:02,322 INFO talento_tech - Nivel 3 verificado: Estructura de respuesta de creación validada.
+2026-11-06 14:20:02,322 INFO talento_tech - Nivel 4 verificado: Contenido completo del usuario creado validado.
+2026-11-06 14:20:02,322 INFO talento_tech - Nivel 5 verificado: Tiempo de respuesta óptimo (1.30561s).
+2026-11-06 14:20:02,322 INFO talento_tech - Prueba test_crear_usuario finalizada con éxito.
+2026-11-06 14:20:02,413 INFO talento_tech - Iniciando prueba de eliminación (DELETE) en la URL: https://reqres.in/api/users/2
+2026-11-06 14:20:03,642 INFO talento_tech - Respuesta recibida. Código de estado: 204, Tiempo: 1.226678s
+2026-11-06 14:20:03,642 INFO talento_tech - Nivel 1 verificado: Status Code 204 OK.
+2026-11-06 14:20:03,643 INFO talento_tech - Nivel 2 verificado: Content-Type ausente como se esperaba para 204.
+2026-11-06 14:20:03,643 INFO talento_tech - Nivel 3 y 4 verificado: Contenido de la respuesta vacío.
+2026-11-06 14:20:03,643 INFO talento_tech - Nivel 5 verificado: Tiempo de respuesta óptimo (1.226678s).
+2026-11-06 14:20:03,643 INFO talento_tech - Prueba test_eliminar_usuario finalizada con éxito.
