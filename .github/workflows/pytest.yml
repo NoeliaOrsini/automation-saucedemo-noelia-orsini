@@ -1,30 +1,38 @@
-name: CI Pytest - UI & API Suite
+name: Tests automatizados
 
 on:
   push:
-    branches: [ "*" ]  # Se ejecuta cuando haces push a cualquier rama
+    branches:
+      - main
+      - feature/pom-architecture
   pull_request:
-    branches: [ main ] # Se ejecuta cuando abres un Pull Request hacia main
+    branches:
+      - main
 
 jobs:
-  test:
+  run-tests:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Copiar código al servidor de GitHub
-      uses: actions/checkout@v4
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
 
-    - name: Configurar Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-        cache: 'pip'
+      - name: Configurar python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-    - name: Instalar dependencias
-      run: |
-        python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Ejecutar pruebas con Pytest
-      run: |
-        pytest -v
+      - name: Ejecutar pruebas
+        run: pytest --html=reports/report.html --self-contained-html
+
+      - name: Guardar reporte como artefacto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporte-pytest-html
+          path: reports/report.html
