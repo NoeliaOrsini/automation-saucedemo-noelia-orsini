@@ -21,6 +21,12 @@ def driver():
     options.add_argument('--remote-allow-origins=*')
     options.add_argument('--disable-gpu')
     
+
+    # Si corre en GitHub Actions (en la nube), activa modo headless obligatoriamente
+    if os.getenv("CI"):
+        options.add_argument('--headless=new')
+        options.add_argument('--window-size=1920,1080')
+        
     # 3. Inicializar el driver de Chrome con las opciones configuradas
     browser = webdriver.Chrome(options=options)
     
