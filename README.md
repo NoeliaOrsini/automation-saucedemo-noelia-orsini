@@ -4,11 +4,15 @@ Este repositorio contiene la suite de pruebas automatizadas para la plataforma w
 
 El objetivo principal es validar la estabilidad y funcionalidad crítica de los flujos clave de la aplicación demo aplicando Selenium WebDriver, Pytest y buenas prácticas de arquitectura de software.
 
+Asimismo, el repositorio incorpora pruebas automatizadas de API contra ReqRes ([https://reqres.in/api](https://reqres.in/api)) utilizando pytest y requests para validar endpoints GET, POST y DELETE.
+
 ## 📌 Flujos Automatizados
 
 1. **Autenticación (Login):** Validación de credenciales válidas, verificación de elementos clave de la interfaz (logo, título) y confirmación de la redirección al catálogo (`/inventory.html`).
 2. **Navegación y Catálogo (Inventory):** Verificación de la carga de productos, validación de nombres/precios dinámicos e inspección de componentes de navegación.
 3. **Gestión del Carrito (Cart):** Adición de productos al carrito, verificación del contador dinámico (*badge*) en la interfaz y confirmación de ítems dentro de la vista detallada del carrito.
+4. **Flujo de Checkout:** Validación del proceso de compra desde el carrito hasta la confirmación del pedido.
+5. **Pruebas de API (ReqRes):** Verificación de operaciones **GET**, **POST** y **DELETE** sobre los endpoints de la API de ReqRes.
 
 ## 🛠️ Tecnologías Utilizadas
 
@@ -18,12 +22,16 @@ El objetivo principal es validar la estabilidad y funcionalidad crítica de los 
 * **Arquitectura de Pruebas:** Pytest Fixtures (`conftest.py`)
 * **Reporte de Pruebas:** pytest-html
 * **Control de Versiones:** Git & GitHub
+* **CI/CD:** GitHub Actions
 
 ## 📁 Estructura del Repositorio
 
 ```text
 pre-entrega-automation-test/
 │
+├── .github/                # Configuración de CI/CD en GitHub Actions
+│   └── workflows/
+│       └── test.yml        # Pipeline automatizado de ejecución de pruebas
 ├── assets/                 # Evidencias y reportes visuales de ejecución
 ├── data/                   # Archivos de datos de prueba (CSV/JSON)
 │   ├── users.csv           # Datos parametrizados para autenticación (DDT)
@@ -31,17 +39,18 @@ pre-entrega-automation-test/
 ├── logs/                   # Registro automatizado de trazas y auditoría (Logs)
 ├── pages/                  # Patrón Page Object Model (POM)
 │   ├── __init__.py         # Inicializador del paquete pages
-│   ├── cart_page.py        # Acciones y selectores del carrito
+│   ├── cart_page.py        # Acciones y selectores del carrito y checkout
 │   ├── inventory_page.py   # Acciones y selectores del catálogo
 │   └── login_page.py       # Acciones y selectores de la vista de login
 ├── reports/                # Reportes HTML y evidencias de ejecución
 │   └── screenshots/        # Capturas automáticas de pantalla cuando falla un test
 ├── tests/                  # Suite de pruebas automatizadas UI (Selenium)
 │   ├── test_cart.py        # Pruebas del módulo de carrito
+│   ├── test_checkout.py    # Pruebas del flujo de checkout
 │   ├── test_inventory.py   # Pruebas del catálogo de productos
 │   └── test_login.py       # Pruebas del módulo de autenticación
 ├── tests_api/              # Suite de pruebas automatizadas de API (Requests)
-│   └── test_api.py         # Pruebas de integración para endpoints GET y POST
+│   └── test_api.py         # Pruebas de integración para endpoints GET, POST y DELETE
 ├── utils/                  # Funciones auxiliares y helpers
 │   ├── __init__.py         # Inicializador del paquete utils
 │   ├── logger.py           # Configuración centralizada de logging y trazabilidad
@@ -122,10 +131,17 @@ Para garantizar la máxima estabilidad, portabilidad y un uso eficiente de los r
    Para garantizar la máxima estabilidad y evitar falsos negativos por desincronización, las pruebas prescinden de esperas fijas (`time.sleep`) y utilizan exclusivamente **esperas explícitas mediante `WebDriverWait` y `expected_conditions`**. Esto permite aguardar dinámicamente a que los elementos del DOM estén presentes o sean cliqueables (como botones de login, ítems y el contador del carrito) antes de interactuar con ellos.
 
 5. **Reportes HTML Autónomos Centralizados (`pytest.ini`):**
-   El archivo `pytest.ini` define la opción `addopts = -v -s --html=report/reporte.html --self-contained-html`, generando un informe visual consolidado en un solo archivo dentro de `report/reporte.html`.
+   El archivo `pytest.ini` define la opción `addopts = -v -s --html=reports/reporte.html --self-contained-html`, generando un informe visual consolidado en un solo archivo dentro de `reports/reporte.html`.
 
 6. Arquitectura Page Object Model (POM) y Data-Driven Testing (DDT):
 El proyecto implementa formalmente el patrón Page Object Model (POM) en la carpeta pages/, desacoplando por completo la lógica de interacción de los elementos web (locators) del código de prueba propiamente dicho. Asimismo, se aplica Data-Driven Testing (DDT) mediante archivos externos users.csv y products.json ubicados en data/, centralizando su lectura a través de funciones seguras en utils/reader.py. Esto permite escalar la cobertura de pruebas de forma limpia sin duplicar código ni modificar las rutinas de testeo.
+
+7. **Integración Continua con GitHub Actions (`.github/workflows/test.yml`):**
+   Configuración del pipeline automatizado para ejecutar la suite de pruebas en la nube (`ubuntu-latest`) ante eventos en `main` y publicar el reporte HTML generado como artefacto de ejecución.
+
+### 🔀 Flujo de Trabajo con Ramas y Merge
+
+El desarrollo de la segunda etapa del proyecto (arquitectura POM, pruebas de checkout y API, logging/capturas y configuración de GitHub Actions) se trabajó en una rama dedicada (`feature/pom-architecture`) separada de `main`, validando los cambios mediante Pull Request antes de realizar el merge final hacia `main` para la entrega del trabajo.
 
 ## 🧪 Ejecución de Pruebas
 
@@ -147,6 +163,12 @@ pytest -m inventory
 
 # Módulo de Carrito
 pytest -m cart
+
+# Módulo de Checkout
+pytest -m checkout
+
+# Pruebas de API (GET, POST y DELETE)
+pytest -m api
 ```
 
 ## 📸 Evidencias de Ejecución
@@ -162,7 +184,13 @@ Los resultados gráficos e informes de prueba se encuentran respaldados en la ca
 * **Prueba Módulo Carrito (`test_cart.py`):**  
   ![Resultado Test Carrito](assets/test_cart.png)
 
-*(El informe interactivo detallado en formato HTML se genera automáticamente en `report/reporte.html` tras cada ejecución).*
+* **Prueba Módulo Checkout (`test_checkout.py`):**  
+  ![Resultado Test Checkout](assets/test_checkout.png)
+
+* **Pruebas de API (`test_api.py` — GET, POST y DELETE):**  
+  ![Resultado Test API](assets/test_api.png)
+
+*(El informe interactivo detallado en formato HTML se genera automáticamente en `reports/reporte.html` tras cada ejecución).*
 
 ## 📊 Reportes de Ejecución y Evidencias
 
@@ -173,6 +201,9 @@ El framework cuenta con generación automática de reportes detallados en HTML y
 
 ### Ejemplo de Reporte HTML con Captura de Evidencia:
 ![Evidencia de Reporte y Screenshot](assets/screenshots.png)
+
+### Reporte HTML Generado en GitHub Actions:
+![Reporte HTML GitHub Actions](assets/report_html_github_actions.png)
 
 ## 👩‍💻 Autora
 
