@@ -1,0 +1,7 @@
+2026-11-19 20:47:42,678 INFO talento_tech - Iniciando prueba de flujo completo de Checkout
+2026-11-19 20:47:54,715 INFO talento_tech - Login exitoso previo al checkout
+2026-11-19 20:48:19,408 INFO talento_tech - Producto agregado y usuario posicionado en el carrito
+2026-11-19 20:48:31,288 INFO talento_tech - Transición a la pantalla de datos de envío exitosa
+2026-11-19 20:48:32,269 INFO talento_tech - Datos de envío completados (Nombre, Apellido y Código Postal)
+2026-11-19 20:48:32,447 INFO talento_tech - Resumen de compra aprobado y botón 'Finish' presionado
+2026-11-19 20:48:32,496 INFO talento_tech - ¡Checkout finalizado con éxito! Mensaje verificado: 'Thank you for your order!'
