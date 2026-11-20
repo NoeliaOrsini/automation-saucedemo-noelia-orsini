@@ -1,0 +1,21 @@
+2026-11-19 21:34:29,209 INFO talento_tech - Iniciando prueba GET para obtener usuario en: https://reqres.in/api/users/2
+2026-11-19 21:34:31,509 INFO talento_tech - Nivel 1 verificado: Status Code 200 OK.
+2026-11-19 21:34:31,510 INFO talento_tech - Nivel 2 verificado: Content-Type application/json presente.
+2026-11-19 21:34:31,511 INFO talento_tech - Nivel 3 verificado: La clave 'data' está presente en la respuesta.
+2026-11-19 21:34:31,511 INFO talento_tech - Nivel 4 verificado: Contenido completo del usuario validado correctamente.
+2026-11-19 21:34:31,542 INFO talento_tech - Nivel 5 verificado: Tiempo de respuesta óptimo (2.250311s).
+2026-11-19 21:34:31,543 INFO talento_tech - Prueba test_obtener_usuario finalizada con éxito.
+2026-11-19 21:34:31,565 INFO talento_tech - Iniciando prueba POST para crear usuario en: https://reqres.in/api/users/ con datos: {'email': 'jose.montezuma@bue.edu.ar', 'first_name': 'Jose', 'last_name': 'Montezuma', 'job': 'Instructor'}
+2026-11-19 21:34:32,785 INFO talento_tech - Nivel 1 verificado: Status Code 201 Created.
+2026-11-19 21:34:32,785 INFO talento_tech - Nivel 2 verificado: Content-Type application/json presente.
+2026-11-19 21:34:32,786 INFO talento_tech - Nivel 3 verificado: Estructura de respuesta de creación validada.
+2026-11-19 21:34:32,786 INFO talento_tech - Nivel 4 verificado: Contenido completo del usuario creado validado.
+2026-11-19 21:34:32,787 INFO talento_tech - Nivel 5 verificado: Tiempo de respuesta óptimo (1.21358s).
+2026-11-19 21:34:32,787 INFO talento_tech - Prueba test_crear_usuario finalizada con éxito.
+2026-11-19 21:34:32,801 INFO talento_tech - Iniciando prueba de eliminación (DELETE) en la URL: https://reqres.in/api/users/2
+2026-11-19 21:34:33,801 INFO talento_tech - Respuesta recibida. Código de estado: 204, Tiempo: 0.994194s
+2026-11-19 21:34:33,801 INFO talento_tech - Nivel 1 verificado: Status Code 204 OK.
+2026-11-19 21:34:33,802 INFO talento_tech - Nivel 2 verificado: Content-Type ausente como se esperaba para 204.
+2026-11-19 21:34:33,802 INFO talento_tech - Nivel 3 y 4 verificado: Contenido de la respuesta vacío.
+2026-11-19 21:34:33,802 INFO talento_tech - Nivel 5 verificado: Tiempo de respuesta óptimo (0.994194s).
+2026-11-19 21:34:33,803 INFO talento_tech - Prueba test_eliminar_usuario finalizada con éxito.

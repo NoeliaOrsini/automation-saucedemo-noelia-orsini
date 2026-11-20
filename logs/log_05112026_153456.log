@@ -1,0 +1,19 @@
+2026-11-05 15:36:01,077 INFO talento_tech - Iniciando prueba de login para el usuario: standard_user
+2026-11-05 15:36:07,725 INFO talento_tech - Pagina abierta correctamente
+2026-11-05 15:36:08,389 INFO talento_tech - Login exitoso - URL de inventario validada
+2026-11-05 15:36:09,002 INFO talento_tech - Logo 'Swag Labs' verificado correctamente en pantalla
+2026-11-05 15:36:09,025 INFO talento_tech - Titulo de la sección 'Products' verificado correctamente
+2026-11-05 15:36:22,820 INFO talento_tech - Iniciando prueba de login para el usuario: locked_out_user
+2026-11-05 15:36:27,962 INFO talento_tech - Pagina abierta correctamente
+2026-11-05 15:36:28,258 ERROR talento_tech - Error crítico durante la prueba para el usuario: locked_out_user
+Traceback (most recent call last):
+  File "C:\Users\IRON\Documents\Noe\QA\pre-entrega-automation-testing-noelia-orsini\tests\test_login.py", line 41, in test_login
+    assert "Epic sadfaceee" in error
+AssertionError: assert 'Epic sadfaceee' in 'Epic sadface: Sorry, this user has been locked out.'
+2026-11-05 15:36:38,645 INFO talento_tech - Iniciando prueba de login para el usuario: invalid_user
+2026-11-05 15:36:43,396 INFO talento_tech - Pagina abierta correctamente
+2026-11-05 15:36:43,440 ERROR talento_tech - Error crítico durante la prueba para el usuario: invalid_user
+Traceback (most recent call last):
+  File "C:\Users\IRON\Documents\Noe\QA\pre-entrega-automation-testing-noelia-orsini\tests\test_login.py", line 41, in test_login
+    assert "Epic sadfaceee" in error
+AssertionError: assert 'Epic sadfaceee' in 'Epic sadface: Username and password do not match any user in this service'

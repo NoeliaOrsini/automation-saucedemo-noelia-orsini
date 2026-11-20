@@ -1,0 +1,11 @@
+2026-11-05 12:48:36,751 INFO talento_tech - Iniciando prueba de login para el usuario: standard_user
+2026-11-05 12:48:40,350 INFO talento_tech - Pagina abierta correctamente
+2026-11-05 12:48:40,447 INFO talento_tech - Login exitoso - URL de inventario validada
+2026-11-05 12:48:40,495 INFO talento_tech - Logo 'Swag Labs' verificado correctamente en pantalla
+2026-11-05 12:48:40,517 INFO talento_tech - Titulo de la sección 'Products' verificado correctamente
+2026-11-05 12:48:48,638 INFO talento_tech - Iniciando prueba de login para el usuario: locked_out_user
+2026-11-05 12:48:53,877 INFO talento_tech - Pagina abierta correctamente
+2026-11-05 12:48:53,956 INFO talento_tech - Prueba de mensaje de error valida
+2026-11-05 12:49:19,256 INFO talento_tech - Iniciando prueba de login para el usuario: invalid_user
+2026-11-05 12:49:30,682 INFO talento_tech - Pagina abierta correctamente
+2026-11-05 12:49:30,968 INFO talento_tech - Prueba de mensaje de error valida
