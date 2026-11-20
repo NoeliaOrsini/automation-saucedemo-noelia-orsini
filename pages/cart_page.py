@@ -52,16 +52,28 @@ class CartPage:
         self.wait.until(EC.url_contains("/checkout-step-one.html")) 
 
     def completar_datos_envio(self, nombre, apellido, codigo_postal):
-        self.wait.until(EC.presence_of_element_located(self.first_name_input)).send_keys(nombre)
-        self.driver.find_element(*self.last_name_input).send_keys(apellido)
-        self.driver.find_element(*self.postal_code_input).send_keys(codigo_postal)
-        
-        btn_continuar = self.wait.until(EC.element_to_be_clickable(self.continue_button))
-        # Asegura visibilidad del botón en resoluciones virtuales antes de avanzar al resumen
-        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn_continuar) 
-        btn_continuar.click()
-        self.wait.until(EC.url_contains("/checkout-step-two.html")) 
+        # Espera, enfoca y completa cada campo para asegurar que React registre los valores en CI
+        first_name = self.wait.until(EC.element_to_be_clickable(self.first_name_input))
+        first_name.click()
+        first_name.clear()
+        first_name.send_keys(nombre)
 
+        last_name = self.wait.until(EC.element_to_be_clickable(self.last_name_input))
+        last_name.click()
+        last_name.clear()
+        last_name.send_keys(apellido)
+
+        postal_code = self.wait.until(EC.element_to_be_clickable(self.postal_code_input))
+        postal_code.click()
+        postal_code.clear()
+        postal_code.send_keys(codigo_postal)
+
+        # Centra el botón Continue, ejecuta el clic por JS y verifica el avance al resumen
+        btn_continuar = self.wait.until(EC.element_to_be_clickable(self.continue_button))
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", btn_continuar)
+        self.driver.execute_script("arguments[0].click();", btn_continuar)
+        self.wait.until(EC.url_contains("/checkout-step-two.html"))
+        
     def finalizar_compra(self):
         btn_finish = self.wait.until(EC.element_to_be_clickable(self.finish_button))
         # Centra el botón Finish en el viewport de CI antes de confirmar la compra
