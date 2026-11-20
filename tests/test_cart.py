@@ -2,6 +2,7 @@ import pytest
 from pages.login_page import LoginPage
 from pages.cart_page import CartPage
 from utils.logger import logger
+from utils.reader import read_products_json
 
 @pytest.mark.cart
 def test_agregar_al_carrito(driver):
@@ -30,12 +31,14 @@ def test_agregar_al_carrito(driver):
         logger.info("Navegación al carrito validada (URL: /cart.html)")
 
         # 5. Confirmar si adentro del carrito está el producto correcto con su nombre y precio
+        productos_json = read_products_json()
+        producto_esperado = productos_json[0]
         nombre_item = cart_page.obtener_nombre_item()
         precio_item = cart_page.obtener_precio_item()
-        assert nombre_item == "Sauce Labs Backpack"
-        assert precio_item == "$29.99"
+        assert nombre_item == producto_esperado["nombre"]
+        assert precio_item == producto_esperado["precio"]
         logger.info(f"Ítem validado en carrito - Producto: '{nombre_item}', Precio: '{precio_item}'")
-
+    
     except Exception:
         logger.exception("Error crítico durante la prueba del carrito de compras")
         raise

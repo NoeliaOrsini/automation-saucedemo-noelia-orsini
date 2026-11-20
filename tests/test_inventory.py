@@ -2,6 +2,8 @@ import pytest
 from pages.login_page import LoginPage
 from pages.inventory_page import InventoryPage
 from utils.logger import logger
+from utils.reader import read_products_json
+
 
 @pytest.mark.inventory
 def test_inventory(driver):
@@ -27,11 +29,15 @@ def test_inventory(driver):
         logger.info(f"Productos cargados correctamente - Cantidad total: {len(productos)}")
 
         # 4. Validar primer producto 
+
+        productos_json = read_products_json()
+        producto_esperado = productos_json[0]
         nombre_primer_producto = inventory_page.obtener_nombre_primer_producto()
         precio_primer_producto = inventory_page.obtener_precio_primer_producto()
-        assert nombre_primer_producto == "Sauce Labs Backpack"
-        assert precio_primer_producto == "$29.99"
+        assert nombre_primer_producto == producto_esperado["nombre"]
+        assert precio_primer_producto == producto_esperado["precio"]
         logger.info(f"Primer producto validado - Nombre: '{nombre_primer_producto}', Precio: '{precio_primer_producto}'")
+
 
         # 5. Validar menú y filtro usando los métodos de la clase
         assert inventory_page.menu_visible()
